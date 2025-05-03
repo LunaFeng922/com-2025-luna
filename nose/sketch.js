@@ -1,3 +1,6 @@
+let hasStarted = false;
+let startButton;
+
 // Interface
 let playButton;
 let tempoButtons = [];
@@ -34,16 +37,16 @@ let movementTracks = [
 let drumNames = [...breathTracks, ...movementTracks];
 let nTracks = drumNames.length;
 kit = new Tone.Players({
-  "嘘 - XU": "XU.MP3",
-  "呵 - HE": "HE.MP3",
-  "呼 - HU": "HU.MP3",
-  "嘶 - SI": "SI.MP3",
-  "吹 - CHUI": "CHUI.MP3",
-  "嘻 - XI": ".XI.MP3",
-  "拍手 - CLAP": "hho.mp3",
-  "微蹲 - SQUAT": "hh.mp3",
-  "踢腿 - KICK": "snare.mp3",
-  "跺脚 - STAMP": "kick.mp3",
+  "嘘 - XU": "samples/505/XU.MP3",
+  "呵 - HE": "samples/505/HE.MP3",
+  "呼 - HU": "samples/505/HU.MP3",
+  "嘶 - SI": "samples/505/SI.MP3",
+  "吹 - CHUI": "samples/505/CHUI.MP3",
+  "嘻 - XI": "samples/505/XI.MP3",
+  "拍手 - CLAP": "samples/505/hho.mp3",
+  "微蹲 - SQUAT": "samples/505/hh.mp3",
+  "踢腿 - KICK": "samples/505/snare.mp3",
+  "跺脚 - STAMP": "samples/505/kick.mp3",
 });
 kit.toDestination();
 Tone.Transport.scheduleRepeat(onBeat, "4n");
@@ -111,6 +114,12 @@ function setup() {
   clearButton.position(windowWidth - 150, buttonY);
   clearButton.mouseClicked(clearPattern);
 
+  // 隐藏除 startButton 外的所有按钮
+  playButton.hide();
+  tempoButtons.forEach((b) => b.hide());
+  randomPatternButton.hide();
+  clearButton.hide();
+
   cellWidth =
     (windowWidth - (600 / 1400) * windowWidth - labelWidth) / nSteps();
   cellHeight = windowHeight / nTracks;
@@ -129,9 +138,37 @@ function setup() {
     resizeCanvas(windowWidth, windowHeight);
     repositionButtons();
   }, 100);
+
+  startButton = createButton("Click to Start");
+  startButton.position(windowWidth / 2, windowHeight / 1.5);
+  startButton.style("font-size", "24px");
+  startButton.style("padding", "20px 40px");
+  startButton.mousePressed(() => {
+    hasStarted = true;
+    startButton.hide();
+  });
+
+  startButton.mousePressed(() => {
+    hasStarted = true;
+    startButton.hide();
+
+    playButton.show();
+    tempoButtons.forEach((b) => b.show());
+    randomPatternButton.show();
+    clearButton.show();
+  });
 }
 
 function draw() {
+  if (!hasStarted) {
+    textFont("Doto");
+    background(255, 240, 160);
+    textAlign(CENTER, CENTER);
+    textSize(48);
+    text("Welcome To Breath Training Room", windowWidth / 2, windowHeight / 2 - 80);
+    return;
+  }
+
   background(255, 240, 160, 60);
 
   //Body & Scale
@@ -409,7 +446,7 @@ function draw() {
   strokeWeight(1);
   textAlign(RIGHT, CENTER);
   textSize(height / 45);
-  fill(100,0,0);
+  fill(100, 0, 0);
   textFont("Doto");
   text("Gate", width - 10, height - 120);
   text("Observation Deck", width - 10, height - 75);
@@ -470,10 +507,10 @@ function mousePressed() {
   }
   //tomouth
   if (
-    mouseX > width * 0.90 &&
+    mouseX > width * 0.9 &&
     mouseX < width &&
     mouseY > height - 40 &&
-    mouseY < height-20
+    mouseY < height - 20
   ) {
     let newWindow = window.open(
       "http://lunafeng922.github.io/com-2025-luna/nosetomouth/index.html"
@@ -489,11 +526,13 @@ function togglePlay() {
     playButton.html("开始 - PLAY");
   } else {
     // 确保在用户交互后才启动音频
-    Tone.start().then(() => {
-      Tone.Transport.position = lastPosition;
-      Tone.Transport.start();
-      playButton.html("停止 - STOP");
-    }).catch(e => console.error(e));
+    Tone.start()
+      .then(() => {
+        Tone.Transport.position = lastPosition;
+        Tone.Transport.start();
+        playButton.html("停止 - STOP");
+      })
+      .catch((e) => console.error(e));
   }
 }
 
