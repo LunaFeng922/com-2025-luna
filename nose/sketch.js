@@ -488,11 +488,12 @@ function togglePlay() {
     Tone.Transport.stop();
     playButton.html("开始 - PLAY");
   } else {
+    // 确保在用户交互后才启动音频
     Tone.start().then(() => {
       Tone.Transport.position = lastPosition;
       Tone.Transport.start();
       playButton.html("停止 - STOP");
-    });
+    }).catch(e => console.error(e));
   }
 }
 
