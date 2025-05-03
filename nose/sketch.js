@@ -34,16 +34,16 @@ let movementTracks = [
 let drumNames = [...breathTracks, ...movementTracks];
 let nTracks = drumNames.length;
 kit = new Tone.Players({
-  "嘘 - XU": "./samples/505/XU.MP3",
-  "呵 - HE": "./samples/505/HE.MP3",
-  "呼 - HU": "./samples/505/HU.MP3",
-  "嘶 - SI": "./samples/505/SI.MP3",
-  "吹 - CHUI": "./samples/505/CHUI.MP3",
-  "嘻 - XI": "./samples/505/XI.MP3",
-  "拍手 - CLAP": "./samples/505/hho.mp3",
-  "微蹲 - SQUAT": "./samples/505/hh.mp3",
-  "踢腿 - KICK": "./samples/505/snare.mp3",
-  "跺脚 - STAMP": "./samples/505/kick.mp3",
+  "嘘 - XU": "XU.MP3",
+  "呵 - HE": "HE.MP3",
+  "呼 - HU": "HU.MP3",
+  "嘶 - SI": "SI.MP3",
+  "吹 - CHUI": "CHUI.MP3",
+  "嘻 - XI": ".XI.MP3",
+  "拍手 - CLAP": "hho.mp3",
+  "微蹲 - SQUAT": "hh.mp3",
+  "踢腿 - KICK": "snare.mp3",
+  "跺脚 - STAMP": "kick.mp3",
 });
 kit.toDestination();
 Tone.Transport.scheduleRepeat(onBeat, "4n");
