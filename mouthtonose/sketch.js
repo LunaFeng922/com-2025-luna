@@ -69,7 +69,7 @@ function mousePressed() {
 
   if (clickCounter >= requiredClicks) {
     let newWindow = window.open(
-      "https://lunafeng922.github.io/ims-2025-Luna/ims-nose-luna/index.html"
+    'https://lunafeng922.github.io/ims-2025-Luna/ims-nose-luna/index.html'
     );
     window.close();
   }
